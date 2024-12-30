@@ -15,6 +15,18 @@ A facial recognition-based watchlist system that allows you to register faces an
 - Poetry (Python package manager)
 - Docker
 - Make
+- CMake (for dlib compilation)
+
+  ```bash
+  # Windows (using chocolatey)
+  choco install cmake
+  
+  # macOS
+  brew install cmake
+  
+  # Ubuntu/Debian
+  sudo apt-get install cmake
+  ```
 
 ## Quick Start
 
