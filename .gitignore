@@ -1,0 +1,5 @@
+uploads/
+*.npy
+__pycache__/
+poetry.lock
+venvs/

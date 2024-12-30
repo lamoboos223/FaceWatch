@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FaceWatch - Search</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .search-form {
+            margin: 20px 0;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .results {
+            margin-top: 20px;
+        }
+        .person-card {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+        }
+        .person-image {
+            max-width: 200px;
+            height: auto;
+        }
+        .button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+        }
+        .button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Search Faces</h1>
+    <a href="{{ url_for('main.index') }}" class="button">Back to Home</a>
+
+    <div class="search-form">
+        <form method="POST" enctype="multipart/form-data">
+            <div>
+                <label>Upload Image to Search:</label>
+                <input type="file" name="image" accept="image/*" required>
+            </div>
+            <button type="submit" class="button">Search</button>
+        </form>
+    </div>
+
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+
+    {% if matches is not none %}
+        <div class="results">
+            <h2>Search Results</h2>
+            {% if matches %}
+                {% for person in matches %}
+                    <div class="person-card">
+                        <img src="{{ url_for('static', filename=person.image_path.split('static/')[-1]) }}" 
+                             alt="{{ person.name }}" 
+                             class="person-image">
+                        <h3>{{ person.name }}</h3>
+                        <p><strong>Year Taken:</strong> {{ person.year_taken }}</p>
+                        <p><strong>Source:</strong> <a href="{{ person.source_url }}">{{ person.source_url }}</a></p>
+                        <p><strong>Reason:</strong> {{ person.reason }}</p>
+                        <p><strong>Added on:</strong> {{ person.created_at.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <p>No matches found.</p>
+            {% endif %}
+        </div>
+    {% endif %}
+</body>
+</html>

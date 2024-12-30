@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Add Person to Watchlist</title>
+</head>
+<body>
+    <h1>Add Person to Watchlist</h1>
+    <form method="POST" enctype="multipart/form-data">
+        <div>
+            <label for="face_image">Face Image:</label>
+            <input type="file" id="face_image" name="face_image" required>
+        </div>
+        <div>
+            <label for="source_url">Source URL:</label>
+            <input type="url" id="source_url" name="source_url">
+        </div>
+        <div>
+            <label for="year_taken">Year Taken:</label>
+            <input type="number" id="year_taken" name="year_taken">
+        </div>
+        <div>
+            <label for="reason">Reason:</label>
+            <textarea id="reason" name="reason"></textarea>
+        </div>
+        <button type="submit">Add Person</button>
+    </form>
+</body>
+</html>

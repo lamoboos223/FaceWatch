@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Face Recognition System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>Face Recognition System</h1>
+        
+        <div class="card">
+            <form id="uploadForm">
+                <div class="form-group">
+                    <label for="image">Register Face:</label>
+                    <input type="file" id="image" name="image" accept="image/*" required>
+                </div>
+                <div class="form-group">
+                    <label for="url">URL:</label>
+                    <input type="text" id="url" name="url" required>
+                </div>
+                <div class="form-group">
+                    <label for="reason">Reason:</label>
+                    <input type="text" id="reason" name="reason" required>
+                </div>
+                <button type="submit">Register</button>
+            </form>
+        </div>
+
+        <div class="card">
+            <form id="verifyForm">
+                <div class="form-group">
+                    <label for="verify_image">Verify Face:</label>
+                    <input type="file" id="verify_image" name="image" accept="image/*" required>
+                </div>
+                <button type="submit">Verify</button>
+            </form>
+        </div>
+
+        <div id="result"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
