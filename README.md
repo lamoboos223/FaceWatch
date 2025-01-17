@@ -54,3 +54,91 @@ A facial recognition-based watchlist system that allows you to register faces an
 | `make init-db` | Initialize database tables |
 | `make clean-db` | Stop and remove database container |
 | `make restart-db` | Reset database (clean slate) |
+| `make mongodb` | Create MongoDB container |
+| `make clean-mongodb` | Stop and remove MongoDB container |
+| `make restart-mongodb` | Reset MongoDB (clean slate) |
+
+---
+
+```mermaid
+classDiagram
+    class DatabaseInterface {
+        +connect()
+        +query()
+    }
+    
+    class PostgreSQLDB {
+        +connect()
+        +query()
+    }
+    
+    class MongoDB {
+        +connect()
+        +query()
+    }
+    
+    class DBFactory {
+        +get_db()
+    }
+    
+    class Config {
+        +DB_TYPE: string
+    }
+    
+    DatabaseInterface <|-- PostgreSQLDB
+    DatabaseInterface <|-- MongoDB
+    DBFactory ..> PostgreSQLDB : creates
+    DBFactory ..> MongoDB : creates
+    DBFactory --> Config : reads
+```
+
+---
+
+```mermaid
+sequenceDiagram
+    participant App
+    participant Config
+    participant Factory as get_db()
+    participant PostgreSQL
+    participant MongoDB
+    
+    App->>Config: Read DB_TYPE
+    Config-->>Factory: Return "postgresql" or "mongodb"
+    
+    alt DB_TYPE is "postgresql"
+        Factory->>PostgreSQL: Create instance
+        PostgreSQL-->>App: Return PostgreSQL connection
+    else DB_TYPE is "mongodb"
+        Factory->>MongoDB: Create instance
+        MongoDB-->>App: Return MongoDB connection
+    end
+```
+
+---
+
+```mermaid
+graph LR
+    A[Application] --> B[get_db Factory]
+    C[Configuration] --> B
+    B --> D[PostgreSQL]
+    B --> E[MongoDB]
+```
+
+---
+
+```mermaid
+sequenceDiagram
+    App->>Config: Get DB_TYPE
+    Config->>Factory: Return setting
+    Factory->>Database: Create instance
+    Database->>App: Return connection
+```
+
+---
+
+```mermaid
+graph TD
+    A[Your Code] -->|calls| B[Abstraction Layer add/commit]
+    B -->|if postgresql| C[SQLAlchemy add/commit]
+    B -->|if mongodb| D[MongoDB insert/save]
+```

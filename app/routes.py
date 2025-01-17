@@ -17,6 +17,7 @@ def index():
 
 @bp.route("/upload", methods=["POST"])
 def upload():
+    # TODO: allow for multiple images and multiple reterives per image. e.g. a person with multiple urls and reasons
     if "image" not in request.files:
         return jsonify({"error": "No file provided"}), 400
 

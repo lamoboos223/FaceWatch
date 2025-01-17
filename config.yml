@@ -1,0 +1,23 @@
+database:
+  type: mongodb # 'postgresql' or 'mongodb'
+
+  postgresql:
+    user: facewatch
+    password: facewatch
+    host: localhost
+    database: facewatch
+    uri: postgresql://facewatch:facewatch@localhost/facewatch
+    track_modifications: false
+
+  mongodb:
+    username: admin
+    password: password
+    host: localhost
+    port: 27017
+    database: facewatch
+    auth_source: admin
+    uri: mongodb://admin:password@localhost:27017/facewatch?authSource=admin
+
+upload:
+  folder: app/static/uploads
+  max_size: 16777216 # 16MB (16 * 1024 * 1024)

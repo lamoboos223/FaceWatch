@@ -1,37 +1,40 @@
-from .models import WatchlistPerson, db
+from .models import SQLWatchlistPerson
 from datetime import datetime
 import numpy as np
 import face_recognition
 import os
 from werkzeug.utils import secure_filename
+from . import get_db
 
 UPLOAD_FOLDER = "app/uploads"
 
 
 def save_face_data(face_data):
     """Save face data to PostgreSQL database"""
-    person = WatchlistPerson(
+    db = get_db()
+    person = db.WatchlistPerson(
         source_url=face_data["url"],
         reason=face_data["reason"],
         image_path=face_data["encoding_path"],
     )
 
     try:
-        db.session.add(person)
-        db.session.commit()
+        db.add(person)
+        db.commit()
     except Exception as e:
-        db.session.rollback()
+        db.rollback()
         print(f"Error saving to database: {str(e)}")
         raise
 
 
 def find_matching_face(verify_encoding_path):
     """Find matching face and return associated data from database"""
+    db = get_db()
     try:
         verify_encoding = np.load(verify_encoding_path)
 
         # Get all persons from database
-        all_persons = WatchlistPerson.query.all()
+        all_persons = db.query_all(db.WatchlistPerson)
 
         # Compare with each stored encoding
         for person in all_persons:
